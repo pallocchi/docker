@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: sqldecrypt <encrypted-db> <plain-db> <key>"
+    exit 1
+fi
+
+ENCRYPTED_DB=$1
+PLAIN_DB=$2
+ENCRYPTION_KEY=$3
+
+SCRIPT="PRAGMA key = '${ENCRYPTION_KEY}';"
+SCRIPT+="ATTACH DATABASE '${PLAIN_DB}' AS decrypted KEY '';"
+SCRIPT+="SELECT sqlcipher_export('decrypted');"
+SCRIPT+="DETACH DATABASE decrypted;"
+
+echo $SCRIPT | sqlcipher $ENCRYPTED_DB

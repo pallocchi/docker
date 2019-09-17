@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if [ "$#" -ne 3 ]; then
-    echo "Usage: sqldecrypt <encrypted-db> <plain-db> <key>"
+    echo "Decrypt SQLite database."
+    echo "Usage: sqldec <encrypted-db> <plain-db> <key>"
     exit 1
 fi
 

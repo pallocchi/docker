@@ -10,6 +10,16 @@ PLAIN_DB=$1
 ENCRYPTED_DB=$2
 ENCRYPTION_KEY=$3
 
+if test ! -f "$PLAIN_DB"; then
+    echo "File $PLAIN_DB does not exist"
+    exit 1
+fi
+
+if test -f "$ENCRYPTED_DB"; then
+    echo "File $ENCRYPTED_DB already exists"
+    exit 1
+fi
+
 SCRIPT="ATTACH DATABASE '$ENCRYPTED_DB' AS encrypted KEY '$ENCRYPTION_KEY';"
 SCRIPT+="SELECT sqlcipher_export('encrypted');"
 SCRIPT+="DETACH DATABASE encrypted;"
